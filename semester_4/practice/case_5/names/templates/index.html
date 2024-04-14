@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'names/css/style.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div class="buttons-layer">
+        {% if user %}
+            <div id="welcome-container">Welcome, {{ user.name }}!</div>
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="button" type="submit">Logout</button>
+            </form>
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="button" type="submit">Submit</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
