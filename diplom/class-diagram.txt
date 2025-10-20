@@ -1,0 +1,84 @@
+@startuml
+class Language {
+  - code : string
+  - title : string
+  + getCode() : string
+  + setCode(code: string) : void
+  + getTitle() : string
+  + setTitle(title: string) : void
+}
+
+class Phrase {
+  - value : string
+  - language : Language
+  - cefrLevel : string
+  - transcription : string
+  + getValue() : string
+  + setValue(value: string) : void
+  + getLanguage() : Language
+  + setLanguage(language: Language) : void
+  + getCefrLevel() : string
+  + setCefrLevel(cefrLevel: string) : void
+  + getTranscription() : string
+  + setTranscription(transcription: string) : void
+}
+
+class PhraseTranslation {
+  - targetValue : string
+  - targetLanguage : Language
+  + getTargetValue() : string
+  + setTargetValue(targetValue: string) : void
+  + getTargetLanguage() : Language
+  + setTargetLanguage(targetLanguage: Language) : void
+}
+
+class Word {
+  - value : string
+  - language : Language
+  - cefrLevel : string
+  - transcription : string
+  + getValue() : string
+  + setValue(value: string) : void
+  + getLanguage() : Language
+  + setLanguage(language: Language) : void
+  + getCefrLevel() : string
+  + setCefrLevel(cefrLevel: string) : void
+  + getTranscription() : string
+  + setTranscription(transcription: string) : void
+}
+
+class WordTranslation {
+  - targetValue : string
+  - targetLanguage : Language
+  + getTargetValue() : string
+  + setTargetValue(targetValue: string) : void
+  + getTargetLanguage() : Language
+  + setTargetLanguage(targetLanguage: Language) : void
+}
+
+class User {
+  - id : string
+  - email : string
+  - nativeLanguage : Language
+  - showSecondarySubtitles : boolean
+  + getId() : string
+  + setId(id: string) : void
+  + getEmail() : string
+  + setEmail(email: string) : void
+  + getNativeLanguage() : Language
+  + setNativeLanguage(language: Language) : void
+  + getShowSecondarySubtitles() : boolean
+  + setShowSecondarySubtitles(show: boolean) : void
+}
+
+' Ассоциации
+Phrase --> Language
+PhraseTranslation --> Language
+Phrase "1" --> "many" PhraseTranslation : translations
+
+Word --> Language
+WordTranslation --> Language
+Word "1" --> "many" WordTranslation : translations
+
+User --> Language : nativeLanguage
+@enduml

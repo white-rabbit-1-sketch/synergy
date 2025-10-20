@@ -1,0 +1,29 @@
+@startuml
+
+actor ProductOwner as "Product Owner"
+actor ScrumMaster as "Scrum Master"
+actor DevTeam as "Development Team"
+
+rectangle "Scrum Framework" {
+    (Product Backlog) as PB
+    (Sprint Planning) as SP
+    (Sprint Backlog) as SB
+    (Sprint Execution) as SE
+    (Product Increment) as PI
+    (Sprint Review) as SR
+    (Retrospective) as RT
+}
+
+ProductOwner --> PB : формирует требования
+PB --> SP : приоритизация задач
+SP --> SB : планирование спринта
+DevTeam --> SE : реализация задач
+SE --> PI : готовый инкремент
+PI --> SR : демонстрация результата
+SR --> RT : анализ и улучшения
+RT --> PB : обновление требований
+
+ScrumMaster --> SE : контроль процесса
+ScrumMaster --> RT : организация ретроспективы
+
+@enduml

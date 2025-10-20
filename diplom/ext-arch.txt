@@ -1,0 +1,30 @@
+@startuml
+
+actor User as "Пользователь"
+
+rectangle "Расширение браузера Alunea" as Extension {
+
+    frame "Extension Space (контекст расширения)" as ExtensionSpace {
+        rectangle "Background Script\n(главная логика, обмен с сервером,\nобработка сообщений)" as Background
+        rectangle "Options Page\n(настройки, авторизация, язык и тема)" as Options
+        rectangle "Popup UI\n(мини-интерфейс при нажатии на иконку)" as Popup
+        rectangle "Messaging API\n(взаимодействие с Page Space)" as Messaging
+    }
+
+    frame "Page Space (контекст страницы стримингового сервиса)" as PageSpace {
+        rectangle "Content Script\n(инъекция в страницу,\nдоступ к плееру и субтитрам)" as Content
+        rectangle "DOM Overlay\n(рендер двойных субтитров и переводов)" as Overlay
+        rectangle "Subtitle Parser\n(чтение и обработка субтитров)" as Parser
+    }
+}
+
+User --> Popup : взаимодействие с интерфейсом расширения
+Content --> Parser : получение субтитров
+Parser --> Overlay : передача данных для отображения
+Content --> Messaging : обмен сообщениями
+Messaging --> Background : передача данных / команд
+Background --> Messaging : ответы и переводы
+Background --> Options : сохранение настроек
+Options --> Background : загрузка конфигурации
+
+@enduml

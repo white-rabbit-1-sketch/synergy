@@ -1,0 +1,33 @@
+@startuml
+package  {
+  [SignIn.vue] -down-> [SecurityService]
+  [SignIn.vue] -down-> [SocialService]
+  [SignUp.vue] -down-> [SecurityService]
+  [SignUp.vue] -down-> [SocialService]
+  [Words.vue] -down-> [WordService]
+  [Word.vue] -down-> [WordService]
+  [Phrases.vue] -down-> [PhraseService]
+  [Profile.vue] -down-> [UserService]
+  [Settings.vue] -down-> [UserService]
+  [Settings.vue] -down-> [StorageService]
+  [Watcher.vue] -down-> [VideoService]
+  [Subtitle.vue] -down-> [VideoService]
+
+  [SecurityService] -down-> [SecurityClient]
+  [SocialService] -down-> [SocialClient]
+  [UserService] -down-> [UserClient]
+  [WordService] -down-> [WordClient]
+  [PhraseService] -down-> [PhraseClient]
+  [VideoService] -down-> [SubtitleService]
+  [SubtitleService] -down-> [WordService]
+  [SubtitleService] -down-> [PhraseService]
+  [StorageService] -down-> (Local storage)
+
+  [SecurityClient] -down-> (Backend API)
+  [SocialClient] -down-> (Backend API)
+  [UserClient] -down-> (Backend API)
+  [WordClient] -down-> (Backend API)
+  [PhraseClient] -down-> (Backend API)
+}
+
+@enduml

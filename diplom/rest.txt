@@ -1,0 +1,35 @@
+@startuml
+
+actor User as "Пользователь"
+
+rectangle "Мобильное приложение / Клиент" as Client {
+    rectangle "Интерфейс (View)" as UI
+    rectangle "ViewModel / Логика приложения" as Logic
+    rectangle "HTTP клиент (fetch / axios)" as HttpClient
+}
+
+rectangle "Сервер приложения (Backend)" as Server {
+    rectangle "REST API (Symfony, PHP)" as API
+    rectangle "Бизнес-логика / Сервисы" as Services
+    rectangle "База данных (MySQL)" as DB
+}
+
+rectangle "Безопасность" as Security {
+    rectangle "Шифрование по HTTPS (SSL/TLS)" as SSL
+    rectangle "Авторизация через JWT / OAuth2" as Auth
+}
+
+User --> UI : вводит запрос / действие
+UI --> Logic : обработка запроса
+Logic --> HttpClient : подготовка REST-запроса (GET/POST/PUT/DELETE)
+HttpClient --> SSL : HTTPS-шифрование
+SSL --> API : защищённая передача данных
+API --> Services : выполнение логики
+Services --> DB : чтение/запись данных
+DB --> API : возврат результата
+API --> SSL : ответ в формате JSON
+SSL --> HttpClient
+HttpClient --> Logic : обработка ответа
+Logic --> UI : отображение результата пользователю
+
+@enduml

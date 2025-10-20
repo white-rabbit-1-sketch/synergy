@@ -1,0 +1,19 @@
+@startuml
+actor User as U
+participant "Vue Component\n(Frontend)" as FE
+participant "Controller\n(Symfony)" as C
+participant "Service\n(PurchaseReceiptService)" as S
+participant "Model/Entity\n(UserSubscription, PurchaseReceipt, PurchaseTransaction)" as M
+database "Database\n(MySQL)" as DB
+
+U -> FE : Нажимает "Оформить подписку"
+FE -> C : POST /v1/purchase/receipt/handle/{provider}
+C -> S : handlePurchaseReceipt(receipt)
+S -> M : Создание подписки, чека, транзакции
+M -> DB : INSERT INTO user_subscription / purchase_receipt / purchase_transaction
+DB --> M : OK (id)
+M --> S : Объекты созданы
+S --> C : Subscription created (204 OK)
+C --> FE : OK
+FE --> U : Отображает подтверждение
+@enduml

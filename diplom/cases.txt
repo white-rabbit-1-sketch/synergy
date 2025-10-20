@@ -1,0 +1,23 @@
+@startuml
+
+actor User as "Пользователь"
+
+rectangle "Система Alunea" {
+  usecase UC1 as "Авторизация и регистрация"
+  usecase UC2 as "Просмотр видео\nс двойными субтитрами"
+  usecase UC3 as "Просмотр видео\nс автоматическим переводом субтитров"
+  usecase UC4 as "Добавление слова\nи работа с ним"
+  usecase UC5 as "Добавление фразы\nи работа с ней"
+  usecase UC6 as "Отметка 'изучено'\nдля слова или фразы"
+  usecase UC7 as "Работа с фильтрами\nслов и фраз"
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+
+@enduml

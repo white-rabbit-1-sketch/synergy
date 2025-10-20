@@ -1,0 +1,14 @@
+@startuml
+title Организационная структура ИП Чулошников Михаил
+
+rectangle "ИП Чулошников Михаил\n(руководитель, архитектор, разработчик)" as Owner
+
+rectangle "Дизайн\n(аутсорсинг, визуальные материалы)" as Design
+rectangle "Тестирование (QA)\n(фриланс, контроль качества)" as QA
+rectangle "Бухгалтерия\n(аутсорсинг)" as Accounting
+
+Owner -down-> Design
+Owner -down-> QA
+Owner -down-> Accounting
+
+@enduml

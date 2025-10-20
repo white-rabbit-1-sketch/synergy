@@ -1,0 +1,25 @@
+@startuml
+
+actor Пользователь as User
+
+rectangle "Vue Компоненты\n(Words.vue, Phrases.vue...)" as Vue
+rectangle "Сервисы\n(WordService, PhraseService, UserService...)" as Services
+rectangle "Сериалайзеры\n(WordSerializer, PhraseSerializer...)" as Serializers
+rectangle "API Клиенты\n(UserClient, WordClient...)" as Clients
+rectangle "Сервер\n(БД + REST API)" as Server
+rectangle "Local Storage\n(кэш, фильтры, тема)" as LocalStorage
+
+User --> Vue : Взаимодействие с UI
+Vue --> Services : Запрос на обработку данных
+Services --> Serializers : Запрос сущностей
+Serializers --> Clients : Запрос JSON
+Clients --> Server : HTTP JSON запрос
+Server --> Clients : HTTP JSON ответ
+Clients --> Serializers : JSON -> объекты-сущности
+Serializers --> Services : Domain-сущности
+Services --> Vue : Результат обработки
+Vue --> User : Отображение данных
+
+Vue <--> LocalStorage : сохранение/чтение\nнекритичных данных
+
+@enduml

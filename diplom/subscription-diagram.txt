@@ -1,0 +1,22 @@
+@startuml
+actor User
+participant "Subscription.vue" as SubscriptionVue
+participant "PurchaseService" as PurchaseService
+participant "Capacitor" as Capacitor
+participant "App Store / Google Play" as ProviderStore
+participant "PurchaseClient" as PurchaseClient
+participant "Purchase API\n(Server-side)" as PurchaseApi
+
+User -> SubscriptionVue : Нажимает "Оформить подписку"
+SubscriptionVue -> PurchaseService : purchase()
+PurchaseService -> Capacitor : call In-App Purchase()
+Capacitor -> ProviderStore : Покупка через Store SDK
+ProviderStore --> Capacitor : Receipt (подписка оформлена)
+Capacitor --> PurchaseService : Receipt
+PurchaseService -> PurchaseClient : handleReceipt(receipt)
+PurchaseClient -> PurchaseApi : handleReceipt(receipt)
+PurchaseApi --> PurchaseClient : OK (валидная подписка)
+PurchaseClient --> PurchaseService : OK
+PurchaseService --> SubscriptionVue : showSuccess()
+SubscriptionVue --> User : Показываем активированную подписку
+@enduml

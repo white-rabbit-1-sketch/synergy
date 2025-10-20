@@ -1,0 +1,25 @@
+@startuml
+
+package "Клиентская часть" {
+  rectangle "Мобильное приложение\n(Vue 3 + Vuetify + Capacitor)" as Mobile
+  rectangle "Расширение браузера\n(Vue 3 + JS API)" as Extension
+}
+
+package "Серверная часть" {
+  rectangle "Backend (Symfony + PHP 8)" as Backend
+  rectangle "База данных (MySQL)" as DB
+  rectangle "Файловое хранилище\n(S3 / SSD RAID)" as Storage
+}
+
+package "Инфраструктура" {
+  rectangle "Docker контейнеризация"
+  rectangle "Caddy Web-сервер"
+  rectangle "Ansible CI/CD"
+  rectangle "Grafana + Loki (мониторинг)"
+}
+
+Mobile --> Backend : REST API / HTTPS
+Extension --> Backend : REST API / HTTPS
+Backend --> DB
+Backend --> Storage
+@enduml

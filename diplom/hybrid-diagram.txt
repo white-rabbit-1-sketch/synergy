@@ -1,0 +1,33 @@
+@startuml
+
+rectangle "Мобильное устройство" {
+
+    frame "WebView / Контейнер" {
+        rectangle "Интерфейс пользователя (UI)\nHTML / CSS / JS / Vue" as UI
+        rectangle "Логика приложения\n(TypeScript / JS)" as Logic
+    }
+
+    frame "Native Bridge" as Bridge {
+        rectangle "Capacitor / Cordova API\n(взаимодействие с нативными функциями)" as NativeAPI
+    }
+
+    frame "Нативная оболочка ОС" as NativeShell {
+        rectangle "Android (Java / Kotlin)\nили iOS (Swift / Objective-C)" as OS
+    }
+
+    UI --> Logic
+    Logic --> Bridge
+    Bridge --> NativeAPI
+    NativeAPI --> OS
+}
+
+rectangle "Серверная часть" as Server {
+    rectangle "REST API / HTTPS" as API
+    rectangle "База данных (MySQL)" as DB
+    API --> DB
+}
+
+OS --> API : сетевое взаимодействие
+UI --> API : через HTTP-запросы (fetch, axios)
+
+@enduml

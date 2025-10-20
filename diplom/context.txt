@@ -1,0 +1,21 @@
+@startuml
+
+actor User as "Пользователь"
+
+rectangle "Мобильное приложение Alunea" as App
+rectangle "Расширение браузера Alunea" as Ext
+rectangle "Серверная часть (Backend)" as Server {
+  rectangle "REST API (Symfony, PHP)"
+  rectangle "База данных (MySQL)"
+  rectangle "ИИ-модуль (GPT / Linguistic API)"
+}
+rectangle "Стриминговые платформы\n(Netflix, Apple TV, Amazon Prime и др.)" as Stream
+
+User --> App : взаимодействие через интерфейс
+User --> Ext : просмотр видео и субтитров
+Ext --> Stream : чтение и обработка субтитров
+Ext --> Server : передача данных для перевода и анализа
+Server --> Ext : возвращает переводы и лингвистические данные
+App --> Server : синхронизация и получение данных пользователя
+Server --> App : возврат данных (слова, переводы, статистика)
+@enduml
