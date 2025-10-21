@@ -1,0 +1,22 @@
+body {
+    background-color: #F0F8FF;
+    background-color: -webkit-linear-gradient(to bottom, #F0F8FF, #F0F8FF);
+    background-color: -moz-linear-gradient(to bottom, #F0F8FF, #F0F8FF);
+    background-color: -ms-linear-gradient(to bottom, #F0F8FF, #F0F8FF);
+    background-color: -o-linear-gradient(to bottom, #F0F8FF, #F0F8FF);
+    color: #00008B;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+a {
+    text-decoration: underline;
+}
+
+img {
+    width: 300px;
+}

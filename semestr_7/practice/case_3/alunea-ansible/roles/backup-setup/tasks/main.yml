@@ -1,0 +1,42 @@
+- name: Install MySQL client
+  become: True
+  apt:
+    name: default-mysql-client
+    state: present
+
+- name: Ensure bin directory exists
+  file:
+    path: "/opt/alunea/bin"
+    state: directory
+
+- name: Ensure database backups directory exists
+  file:
+    path: "/opt/alunea/backups/database"
+    state: directory
+
+- name: Ensure storage backups directory exists
+  file:
+    path: "/opt/alunea/backups/storage"
+    state: directory
+
+- name: Create backup-database.sh file
+  template:
+    src: backup-database.sh.j2
+    dest: "/opt/alunea/bin/backup-database.sh"
+
+- name: Create backup-storage.sh file
+  template:
+    src: backup-storage.sh.j2
+    dest: "/opt/alunea/bin/backup-storage.sh"
+
+- name: Deploy crontab file
+  template:
+    src: crontab.j2
+    dest: /tmp/crontab
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0644"
+
+- name: Install crontab
+  command: crontab /tmp/crontab
+  changed_when: true

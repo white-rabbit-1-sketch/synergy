@@ -1,0 +1,22 @@
+- name: Configure ssh
+  become: true
+  template:
+    src: ssh/sshd_config.j2
+    dest: "/etc/ssh/sshd_config"
+
+- name: Reload ssh
+  become: true
+  service:
+    name: ssh
+    state: reloaded
+
+- name: Configure root bash
+  become: true
+  template:
+    src: bash/.root.bash_profile.j2
+    dest: "/root/.bash_profile"
+
+- name: Configure user bash
+  template:
+    src: bash/.user.bash_profile.j2
+    dest: "/home/{{user}}/.bash_profile"

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DB_HOST="127.0.0.1"
+DB_USER="{{backend.database_user}}"
+DB_PASSWORD="{{backend.database_password}}"
+DB_NAME="{{backend.database_name}}"
+BACKUP_DIR="/opt/alunea/backups/database"
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+BACKUP_FILE_PATH="${BACKUP_DIR}/backup.${DB_NAME}.${TIMESTAMP}.sql.gz"
+
+mysqldump \
+  --no-tablespaces \
+  -h"${DB_HOST}" \
+  -u"${DB_USER}" \
+  -p"${DB_PASSWORD}" \
+  "${DB_NAME}" \
+  | gzip > "${BACKUP_FILE_PATH}"
+
+if [ $? -eq 0 ]; then
+  echo "[$(date)] ✅ Backup created: ${BACKUP_FILE_PATH}"
+else
+  echo "[$(date)] ❌ Backup failed!" >&2
+  exit 1
+fi
+
+find "${BACKUP_DIR}" -type f -name "backup.${DB_NAME}.*.sql.gz" -mtime +14 -print -delete

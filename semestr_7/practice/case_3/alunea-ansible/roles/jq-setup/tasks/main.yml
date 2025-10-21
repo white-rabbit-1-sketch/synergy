@@ -1,0 +1,5 @@
+- name: Ensure jq is installed
+  apt:
+    name: jq
+    state: present
+  become: true

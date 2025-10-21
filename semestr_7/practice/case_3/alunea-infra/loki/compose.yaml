@@ -1,0 +1,10 @@
+services:
+  loki:
+    image: grafana/loki:3.4.4
+    container_name: loki
+    networks:
+      - external-network
+
+networks:
+  external-network:
+    external: true

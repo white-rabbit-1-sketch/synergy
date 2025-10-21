@@ -1,0 +1,14 @@
+- name: Ensure project directory exists
+  become: True
+  file:
+    path: "/opt/alunea"
+    state: directory
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+
+- name: Clone infra repository
+  git:
+    repo: "https://{{git.user}}:{{git.token}}@{{git.repo.infra}}"
+    dest: "/opt/alunea/alunea-infra"
+    force: yes

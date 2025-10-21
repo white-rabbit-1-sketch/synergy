@@ -1,0 +1,28 @@
+- name: Create .env configuration file for caddy
+  template:
+    src: .env.j2
+    dest: "/opt/alunea/alunea-infra/caddy/.env"
+
+- name: Ensure web/.well-known directory exists
+  become: True
+  file:
+    path: "/opt/alunea/alunea-infra/caddy/web/.well-known"
+    state: directory
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+    recurse: yes
+
+- name: Create apple app site association file
+  template:
+    src: apple-app-site-association.j2
+    dest: "/opt/alunea/alunea-infra/caddy/web/.well-known/apple-app-site-association"
+
+- name: Start caddy container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-infra/caddy"
+    services:
+      - caddy
+    state: present
+    build: always

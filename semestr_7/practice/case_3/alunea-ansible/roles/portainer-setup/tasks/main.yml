@@ -1,0 +1,8 @@
+- name: Start portainer container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-infra/portainer"
+    services:
+      - portainer
+    state: present
+    build: always

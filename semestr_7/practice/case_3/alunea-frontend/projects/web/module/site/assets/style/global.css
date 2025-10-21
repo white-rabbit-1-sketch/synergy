@@ -1,0 +1,66 @@
+:root {
+    --safe-area-inset-top: 112px;
+    --safe-area-inset-bottom: 24px;
+}
+
+::selection {
+    background-color: #673AB7;
+}
+
+html {
+    /*scroll-behavior: smooth;*/
+}
+
+body {
+    background-color: rgb(var(--v-theme-body-1));
+    font-family: 'Netflix Sans', 'Helvetica Neue', 'Segoe UI', Roboto, Ubuntu, sans-serif;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+}
+
+.anchor {
+    scroll-margin-top: 88px;
+}
+
+.header {
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding-top: calc(max(env(safe-area-inset-top), var(--safe-area-inset-top)) + 8px) !important;
+    padding-bottom: calc(max(env(safe-area-inset-bottom), var(--safe-area-inset-bottom)) + 8px) !important;
+}
+
+.footer {
+    flex-shrink: 0;
+}
+
+.banner-wrapper {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+}
+
+.banner-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* тут можно играться */
+    background: radial-gradient(
+            circle,
+            transparent 50%,
+            rgb(var(--v-theme-body-1) / 1)
+    );
+    /* или линейный градиент */
+    /* background: linear-gradient(to bottom, transparent 70%, black 100%); */
+    pointer-events: none; /* чтобы клики шли сквозь */
+}

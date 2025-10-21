@@ -1,0 +1,7 @@
+- name: Setup backend infra
+  hosts: backend
+
+  roles:
+    - role: infra-repo-setup
+    - role: caddy-setup
+

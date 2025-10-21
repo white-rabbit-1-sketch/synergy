@@ -1,0 +1,13 @@
+- name: Create .env configuration file for wireguard
+  template:
+    src: .env.j2
+    dest: "/opt/alunea/alunea-infra/wireguard/.env"
+
+- name: Start wireguard container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-infra/wireguard"
+    services:
+      - wireguard
+    state: present
+    build: always

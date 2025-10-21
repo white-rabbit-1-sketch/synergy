@@ -1,0 +1,24 @@
+- name: Ensure backend repository exists (prevent dir creation during logs mount)
+  git:
+    repo: "https://{{git.user}}:{{git.token}}@{{git.repo.backend}}"
+    dest: "/opt/alunea/alunea-backend"
+    force: yes
+
+- name: Ensure var directory exists
+  become: True
+  file:
+    path: "/opt/alunea/alunea-backend/var"
+    state: directory
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+    recurse: yes
+
+- name: Start alloy container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-infra/alloy"
+    services:
+      - alloy
+    state: present
+    build: always

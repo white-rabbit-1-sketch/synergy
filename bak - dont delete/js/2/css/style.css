@@ -1,0 +1,29 @@
+.note {
+    cursor: pointer;
+    max-height: 65px;
+}
+
+.note:hover {
+    font-weight: bold;
+}
+
+.note:hover .note-button {
+    visibility: visible;
+}
+
+.note span {
+    width: 100%;
+}
+
+.note-button {
+    visibility: hidden;
+}
+
+.new-note-button {
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
+.hidden {
+    display: none !important;
+}

@@ -1,0 +1,7 @@
+.idea
+caddy/var/log/*
+caddy/web/*
+caddy/.env
+grafana/.env
+wireguard/config/*
+wireguard/.env

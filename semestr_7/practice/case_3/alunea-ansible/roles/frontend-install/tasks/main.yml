@@ -1,0 +1,56 @@
+- name: Clone frontend repository
+  git:
+    repo: "https://{{git.user}}:{{git.token}}@{{git.repo.frontend}}"
+    dest: "/opt/alunea/alunea-frontend"
+    version: "{{frontend_version}}"
+    force: yes
+
+- name: Configure .sentryclirc
+  template:
+    src: .sentryclirc.j2
+    dest: "/opt/alunea/alunea-frontend/.sentryclirc"
+
+- name: Npm install project deps
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    npm install
+  args:
+    chdir: "/opt/alunea/alunea-frontend"
+    executable: /bin/bash
+
+- name: Build app
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    npm run app:build:production
+  args:
+    chdir: "/opt/alunea/alunea-frontend"
+    executable: /bin/bash
+
+- name: Build web
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+    npm run web:build:production
+  args:
+    chdir: "/opt/alunea/alunea-frontend"
+    executable: /bin/bash
+
+- name: Stop containers
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-frontend"
+    services:
+      - web
+      - app
+    state: stopped
+
+- name: Start containers
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-frontend"
+    services:
+      - web
+      - app
+    state: present

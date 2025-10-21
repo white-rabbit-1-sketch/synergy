@@ -1,0 +1,13 @@
+.player-timedtext {
+    display: none !important;
+}
+
+.alunea-netflix-selector-language-logo {
+    width: 20px;
+    height: auto;
+    float: left;
+}
+
+.watch-video--bottom-controls-container {
+    z-index: 10 !important;
+}

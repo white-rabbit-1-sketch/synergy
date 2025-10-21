@@ -1,0 +1,8 @@
+- name: Start loki container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-infra/loki"
+    services:
+      - loki
+    state: present
+    build: always

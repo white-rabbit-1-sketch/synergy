@@ -1,0 +1,13 @@
+- name: Create .env configuration file for grafana
+  template:
+    src: .env.j2
+    dest: "/opt/alunea/alunea-infra/grafana/.env"
+
+- name: Start grafana container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-infra/grafana"
+    services:
+      - grafana
+    state: present
+    build: always

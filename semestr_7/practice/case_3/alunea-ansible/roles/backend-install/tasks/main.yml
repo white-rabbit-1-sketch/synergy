@@ -1,0 +1,164 @@
+- name: Clone backend repository
+  git:
+    repo: "https://{{git.user}}:{{git.token}}@{{git.repo.backend}}"
+    dest: "/opt/alunea/alunea-backend"
+    version: "{{backend_version}}"
+    force: yes
+
+- name: Create .env configuration file from template
+  template:
+    src: .env.j2
+    dest: "/opt/alunea/alunea-backend/.env"
+
+- name: Ensure certs directory exists
+  file:
+    path: "/opt/alunea/alunea-backend/var/certs/"
+    state: directory
+
+- name: Ensure cache directory exists
+  become: True
+  file:
+    path: "/opt/alunea/alunea-backend/var/cache"
+    state: directory
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+    recurse: yes
+
+- name: Ensure log directory exists
+  become: True
+  file:
+    path: "/opt/alunea/alunea-backend/var/log"
+    state: directory
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+    recurse: yes
+
+- name: Ensure storage directory exists
+  become: True
+  file:
+    path: "/opt/alunea/alunea-backend/var/storage"
+    state: directory
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+    recurse: yes
+
+- name: Create sdk apple key file
+  template:
+    src: sdk_apple_AuthKey.p8.j2
+    dest: "/opt/alunea/alunea-backend/var/certs/sdk_apple_AuthKey.p8"
+
+- name: Create native apple key file
+  template:
+    src: native_apple_AuthKey.p8.j2
+    dest: "/opt/alunea/alunea-backend/var/certs/native_apple_AuthKey.p8"
+
+- name: Create extension apple key file
+  template:
+    src: extension_apple_AuthKey.p8.j2
+    dest: "/opt/alunea/alunea-backend/var/certs/extension_apple_AuthKey.p8"
+
+- name: Copy Apple root certificate from control node to managed host
+  ansible.builtin.copy:
+    src: templates/AppleRootCA-G3.cer
+    dest: "/opt/alunea/alunea-backend/var/certs/AppleRootCA-G3.cer"
+    owner: "{{user}}"
+    group: "{{user}}"
+    mode: "0755"
+
+- name: Create web apple key file
+  template:
+    src: web_apple_AuthKey.p8.j2
+    dest: "/opt/alunea/alunea-backend/var/certs/web_apple_AuthKey.p8"
+
+- name: Create Google service account key file
+  template:
+    src: alunea.json.j2
+    dest: "/opt/alunea/alunea-backend/var/certs/alunea.json"
+
+- name: Stop containers
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-backend"
+    services:
+      - php
+      - worker
+      - mysql
+      - rabbitmq
+      - libretranslate
+      - redis
+      - spacy
+    state: stopped
+
+- name: Start php container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-backend"
+    services:
+      - php
+    state: present
+
+- name: Run composer install in the PHP container
+  become: true
+  community.docker.docker_container_exec:
+    container: php
+    command: "composer install --no-dev --no-interaction --no-scripts --prefer-dist --no-progress --optimize-autoloader"
+
+- name: Clear cache
+  become: true
+  community.docker.docker_container_exec:
+    container: php
+    command: "php bin/console cache:clear"
+
+- name: Warmup cache
+  become: true
+  community.docker.docker_container_exec:
+    container: php
+    command: "php bin/console cache:warmup"
+
+- name: Ensure database exists
+  become: true
+  community.docker.docker_container_exec:
+    container: php
+    command: "php bin/console doctrine:database:create --if-not-exists --no-interaction"
+
+- name: Ensure messenger transports
+  become: true
+  community.docker.docker_container_exec:
+    container: php
+    command: "php bin/console messenger:setup-transports --no-interaction"
+
+- name: Execute migrations
+  become: true
+  community.docker.docker_container_exec:
+    container: php
+    command: "php bin/console doctrine:migrations:migrate --no-interaction"
+
+- name: Start mysql & rabbitmq containers
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-backend"
+    services:
+      - mysql
+      - rabbitmq
+    state: present
+
+- name: Start spacy container
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-backend"
+    services:
+      - spacy
+    state: present
+
+- name: Start other containers
+  become: true
+  community.docker.docker_compose_v2:
+    project_src: "/opt/alunea/alunea-backend"
+    services:
+      - worker
+      - libretranslate
+      - redis
+    state: present

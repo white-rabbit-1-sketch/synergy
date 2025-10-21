@@ -1,0 +1,204 @@
+body {
+    margin: 0;
+    color: white;
+    font-family: Josefin Sans;
+    font-size: 14px;
+    background-image: url("./../../static/img/header.png");
+}
+
+
+a {
+    color: white;
+}
+
+a.no-underline {
+    text-decoration: none;
+}
+
+.header {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.social {
+    min-height: 30px;
+
+    .email, .phone, .networks {
+        display: inline-block;
+    }
+
+    .phone {
+        margin-left: 20px;
+    }
+
+    .networks {
+        float: right;
+
+        .fa-brands {
+            margin-left: 8px;
+        }
+    }
+}
+
+.navigation {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    min-height: 50px;
+    background-color: white;
+    color: black;
+
+    font-size: 20px;
+
+
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: space-between; /* Центрирование по горизонтали */
+
+    & a {
+        color: black;
+
+        &:hover {
+            color: royalblue;
+        }
+    }
+
+    .active {
+        color: royalblue;
+        font-weight: bold;
+    }
+
+    .left a {
+        display: inline-block;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .right a {
+        display: inline-block;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.logo {
+    max-width: 200px;
+    #display: inline-block;
+    #font-weight: bold;
+    #font-size: 22px;
+    /*min-width: 120px;
+    min-height: 60px;
+    border: solid 1px black;
+    margin-top: -15px;
+    margin-bottom: -20px;
+    z-index: 1;
+    position: relative;*/
+}
+
+.rounded-box {
+    border-radius: 10px;
+}
+
+.button {
+    display: inline-block;
+    border-radius: 10px;
+    background-color: royalblue;
+    padding-top: 10px;
+    padding-bottom: 5px;
+
+    & a:hover {
+        color: white;
+    }
+}
+
+.intro {
+    display: inline-block;
+    margin-top: 5%;
+    background-color: white;
+    padding: 20px;
+    font-size: 16px;
+    color: gray;
+    max-width: 40%;
+
+    .title {
+        color: royalblue;
+        font-size: 30px;
+    }
+
+    .subtitle {
+        color: black;
+        font-size: 25px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .google {
+        height: 70px;
+    }
+
+    .appstore {
+        height: 70px;
+    }
+
+    .download {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.lead {
+    display: inline-block;
+    #padding-left: 5%;
+    #max-width: 200px;
+    float: right;
+    align-items: center;
+
+    & img {
+        max-width: 500px;
+        float: right;
+    }
+}
+
+.main {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.footer {
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: space-between; /* Центрирование по горизонтали */
+    margin-top: 300px;
+    min-height: 20vh;
+    background-color: black;
+    padding: 20px;
+
+    .description {
+        max-width: 30%;
+    }
+
+    .footer-navigation {
+        max-width: 10%;
+        font-size: 15px;
+    }
+
+    .footer-navigation a {
+        display: block;
+        margin-bottom: 15px;
+    }
+}
+
+.places {
+    margin-top: 50px;
+    max-width: 40%;
+
+    .title {
+        font-size: 25px;
+        font-weight: bold;
+    }
+}

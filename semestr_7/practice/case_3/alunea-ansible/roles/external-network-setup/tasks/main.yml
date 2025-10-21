@@ -1,0 +1,7 @@
+- name: Ensure external network exists
+  become: true
+  community.docker.docker_network:
+    name: external-network
+    driver: bridge
+    internal: false
+    state: present

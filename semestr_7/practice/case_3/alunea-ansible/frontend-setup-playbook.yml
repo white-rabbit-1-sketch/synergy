@@ -1,0 +1,13 @@
+- name: Setup frontend infra
+  hosts: frontend
+
+  roles:
+    - role: timezone-setup
+    - role: user-setup
+    - role: docker-setup
+    - role: infra-repo-setup
+    - role: external-network-setup
+    - role: caddy-setup
+    - role: nvm-setup
+    - role: jq-setup
+
